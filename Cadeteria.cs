@@ -5,22 +5,19 @@ public class Cadeteria
     private string nombre;
     private string telefono;
     private List<Cadete> listaCadetes;
-    private List<Pedido> listaPedidosAAsignar;
 
     public string Nombre{get => nombre;}
     public string Telefono{get => telefono;}
-    public List<Cadete> ListaCadetes{set => listaCadetes = value;}
-
+    public List<Cadete> ListaCadetes{get => listaCadetes; set => listaCadetes = value;}
 
     public Cadeteria(){}
     public Cadeteria(string nombre, string telefono){
         this.nombre = nombre;
         this.telefono = telefono;
-        this.listaPedidosAAsignar = new List<Pedido>();
     }
 
-    public Pedido DarAltaPedido(){
-        string nombreCliente = "", direccionCliente = "", telCliente = "", datosReferenciaCliente = "";
+    public Pedido DarAltaPedido(int nroPedido){
+        string nombreCliente = "", direccionCliente = "", telCliente = "", datosReferenciaDireccionCliente = "";
         string obsPedido = "";
         Console.WriteLine("\n$========= DATOS DEL CLIENTE ==========\n");
         Console.Write("> Nombre:");
@@ -30,27 +27,55 @@ public class Cadeteria
         Console.Write("> Teléfono: ");
         telCliente = Console.ReadLine();
         Console.Write("> Datos de referencia de su dirección: ");
-        datosReferenciaCliente = Console.ReadLine();
+        datosReferenciaDireccionCliente = Console.ReadLine();
         Console.Write("\n> OBSERVACIONES SOBRE EL PEDIDO: ");
         obsPedido = Console.ReadLine();
-        Cliente cl = new Cliente(nombreCliente, direccionCliente, telCliente, datosReferenciaCliente);
-        Pedido ped = new Pedido(obsPedido, cl);
+        Pedido ped = new Pedido(nroPedido, obsPedido, nombreCliente, direccionCliente, telCliente, datosReferenciaDireccionCliente);
 
-        return ped;    
+        return ped;
+    }
+    public int IdMaximo(){
+        return (listaCadetes.Count - 1);
     }
 
-    public int CantidadPedidos(){
-        return listaPedidosAAsignar.Count;
-    }
-    public void AgregarPedido(Pedido p){
-        listaPedidosAAsignar.Add(p);
+    public void AsignarPedidoACadete(int idCadete, Pedido pedidoTomado){
+        foreach( var c in listaCadetes){
+            if(c.Id == idCadete) c.AgregarPedido(pedidoTomado);
+        }
+        
     }
 
-    public void MostrarPedidos(){
-        foreach(var p in listaPedidosAAsignar){
-            Console.WriteLine($"> Nro: {p.Nro}");
-            Console.WriteLine($"> Obs: {p.Observaciones}");
-            p.VerDatosCliente();
+    public void MostrarCantidadDePedidosDeCadetes(){
+        Console.WriteLine("\n============ CANTIDAD DE PEDIDOS POR CADETE ==============\n");
+        foreach(var cad in listaCadetes){
+            Console.WriteLine($"Id: {cad.Id}       Nombre: {cad.Nombre}      Cant. pedidos: {cad.CantidadPedidosAsignados}");
         }
     }
+
+    public bool CambiarEstadoPedido(int nroPedido){
+        foreach (var cad in listaCadetes){
+            if(cad.CambiarEstadoPedido(nroPedido)) {
+                Console.WriteLine("\nSe cambió el estado del pedido.\n");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void ReasignarPedidoACadete(int nroPedido, int idCadete){
+        Pedido pedidoAReasignar = new Pedido();
+        foreach(var cad in listaCadetes){
+            pedidoAReasignar = cad.ListaPedidos.Find(p => p.Nro == nroPedido);
+            if(pedidoAReasignar != null) break;
+        }
+
+        foreach(var cad in listaCadetes){
+            if(cad.Id == idCadete){
+                cad.AgregarPedido(pedidoAReasignar);
+            }
+        }
+    }
+
+    //public void MostrarInforme()
 }
