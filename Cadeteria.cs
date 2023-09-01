@@ -97,5 +97,6 @@ public class Cadeteria
             Console.WriteLine($"Nombre: {c.Nombre}     Cant. Pedidos Entregados: {c.CantidadPedidosEntregados}   Monto ganado: {c.JornalACobrar()}");
         }
         Console.WriteLine($"\nCantidad total de pedidos entregados: {cantTotalPedidos}");
+        Console.WriteLine($"\nCantidad promedio de pedidos entregados: {cantTotalPedidos / listaCadetes.Count}");
     }
 }
