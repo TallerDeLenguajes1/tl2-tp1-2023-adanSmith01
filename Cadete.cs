@@ -45,9 +45,8 @@ public class Cadete
     public bool CambiarEstadoPedido(int nroPedido){
         foreach(var p in listaPedidos){
             if(p.Nro == nroPedido){
-                p.Aceptado();
+                p.Entregado();
                 cantidadPedidosEntregados++;
-                EliminarPedido(nroPedido);
                 return true;
             }
         }

@@ -9,7 +9,7 @@ internal class Program
 
         Cadeteria oca = AccesoDatosCadeteria.ObtenerInfoCadeteria(rutaArchivoDatosCadeteria); //Verificado
         List<Cadete> listadoCadetes = AccesoDatosCadeteria.ObtenerListaCadetes(rutaArchivoDatosCadetes);
-        oca.ListaCadetes = listadoCadetes;
+        oca.AgregarListaCadetes(listadoCadetes);
 
         //INTERFAZ
         string operacion = "";
@@ -77,11 +77,29 @@ internal class Program
                 break;
 
                 case "d":
-                
+                int nroPedidoAReasignar, idCadeteAReasignar;
+                string nroP = "", idCad = "";
+
+                do{
+                    Console.Write("Ingrese numero del pedido: ");
+                    nroP = Console.ReadLine();
+                    Console.Write("Ingrese id del cadete a reasignar pedido: ");
+                    idCad = Console.ReadLine();
+
+                    if(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(idCad, out idCadeteAReasignar)){
+                        Console.WriteLine("\nERROR. El id o el numero de pedido no es válido");
+                    } else{
+                        if(idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()){
+                            Console.WriteLine("ERROR. Id inexistente.");
+                        } else{
+                            oca.ReasignarPedidoACadete(nroPedidoAReasignar, idCadeteAReasignar);
+                        }
+                    }
+                }while(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(idCad, out idCadeteAReasignar) || (idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()));
                 break;
             }
         }while(operacion != "e");
-
+        oca.MostrarInforme();
     }
 
 }

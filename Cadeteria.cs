@@ -16,6 +16,10 @@ public class Cadeteria
         this.telefono = telefono;
     }
 
+    public void AgregarListaCadetes(List<Cadete> listaCadetes){
+        this.listaCadetes = listaCadetes;
+    }
+
     public Pedido DarAltaPedido(int nroPedido){
         string nombreCliente = "", direccionCliente = "", telCliente = "", datosReferenciaDireccionCliente = "";
         string obsPedido = "";
@@ -34,6 +38,7 @@ public class Cadeteria
 
         return ped;
     }
+
     public int IdMaximo(){
         return (listaCadetes.Count - 1);
     }
@@ -67,15 +72,30 @@ public class Cadeteria
         Pedido pedidoAReasignar = new Pedido();
         foreach(var cad in listaCadetes){
             pedidoAReasignar = cad.ListaPedidos.Find(p => p.Nro == nroPedido);
-            if(pedidoAReasignar != null) break;
+            if(pedidoAReasignar != null) {
+                cad.ListaPedidos.Remove(pedidoAReasignar);
+                break;
+            }
         }
 
-        foreach(var cad in listaCadetes){
+        if(pedidoAReasignar.Estado == EstadoPedido.Entregado){
+            Console.WriteLine("\nNo se puede reasignar un pedido que ya ha sido entregado.\n");
+        } else{
+            foreach(var cad in listaCadetes){
             if(cad.Id == idCadete){
                 cad.AgregarPedido(pedidoAReasignar);
+                break;
             }
+        }
         }
     }
 
-    //public void MostrarInforme()
+    public void MostrarInforme(){
+        Console.WriteLine("\n=========== INFORME DEL DÍA ============\n");
+        int cantTotalPedidos = listaCadetes.Sum(x => x.CantidadPedidosEntregados);
+        foreach(var c in listaCadetes){
+            Console.WriteLine($"Nombre: {c.Nombre}     Cant. Pedidos Entregados: {c.CantidadPedidosEntregados}   Monto ganado: {c.JornalACobrar()}");
+        }
+        Console.WriteLine($"\nCantidad total de pedidos entregados: {cantTotalPedidos}");
+    }
 }

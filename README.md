@@ -26,7 +26,7 @@
 - De la clase Cliente:
   - Los datos personales (nombre, direccion, telefono) como atributos privados y accedidos usando la propiedad `get`
 - De la clase Pedido:
-  - Sus datos principales como atributos privados y solo tener acceso a la información, por medio de la propiedad`get`, relacionada al número, observaciones y estado de cada pedido. Por otro lado, los métodos `VerDatosCliente()` y `Aceptado()` deben ser públicos.
+  - Sus datos principales como atributos privados y solo tener acceso a la información, por medio de la propiedad`get`, relacionada al número, observaciones y estado de cada pedido. Por otro lado, los métodos `VerDatosCliente()` y `Entregado()` deben ser públicos.
 - De la clase Cadete:
   - Sus datos personales (nombre, direccion, telefono) quedan como atributos privados y pueden ser accedidos con el método público `VerDatosCadete()`. Los métodos nombrados en el enunciado anterior serían públicos.
 

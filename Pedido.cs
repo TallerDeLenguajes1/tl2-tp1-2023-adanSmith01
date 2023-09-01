@@ -31,7 +31,7 @@ public class Pedido
         Console.WriteLine($"> Direccion: {cliente.Direccion}");
     }
 
-    public void Aceptado(){
+    public void Entregado(){
         estado = EstadoPedido.Entregado;
     }
 }
