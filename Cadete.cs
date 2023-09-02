@@ -6,20 +6,17 @@ public class Cadete
     private string nombre;
     private string direccion;
     private string telefono;
-    private List<Pedido> listaPedidos;
     
     public int Id{get => id;}
     public string Nombre{get => nombre;}
     public string Direccion{get => direccion;}
     public string Telefono{get => telefono;}
-    public List<Pedido> ListaPedidos{get => listaPedidos;}
 
     public Cadete(int id, string nombre, string direccion, string telefono){
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.listaPedidos = new List<Pedido>();
     }
 
     public Cadete(string id, string nombre, string direccion, string telefono){
@@ -27,10 +24,9 @@ public class Cadete
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.listaPedidos = new List<Pedido>();
     }
 
-    public void AgregarPedido(Pedido pedido){
+    /*public void AgregarPedido(Pedido pedido){
         listaPedidos.Add(pedido);
     }
     
@@ -43,9 +39,9 @@ public class Cadete
         }
 
         return false;
-    }
+    }*/
 
-    public int CantPedidosPendientes(){
+    /*public int CantPedidosPendientes(){
         int cantPedidosPendientes = 0;
         foreach(var p in listaPedidos){
             if(p.Estado == EstadoPedido.Pendiente) cantPedidosPendientes++;
@@ -65,5 +61,5 @@ public class Cadete
 
     public double JornalACobrar(){
         return((double)500 * CantidadPedidosEntregados());
-    }
+    }*/
 }
