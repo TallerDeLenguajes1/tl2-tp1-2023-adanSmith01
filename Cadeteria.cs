@@ -5,12 +5,14 @@ public class Cadeteria
     private string nombre;
     private string telefono;
     private List<Cadete> listaCadetes;
+    private List<Pedido> listaPedidos;
 
     public string Nombre{get => nombre;}
     public string Telefono{get => telefono;}
     public List<Cadete> ListaCadetes{get => listaCadetes;}
 
     public Cadeteria(){}
+
     public Cadeteria(string nombre, string telefono){
         this.nombre = nombre;
         this.telefono = telefono;
@@ -24,10 +26,21 @@ public class Cadeteria
         this.listaCadetes = listaCadetes;
     }
 
-    public bool DarAltaPedido(int nroPedido, string obsPedido, int idCadete, string nombreCliente, string direccionCliente, string telCliente, string datosReferenciaDireccionCliente){
+    public bool AgregarPedidoALista(Pedido ped){
+        bool agregado = false;
+
+        if(ped != null){
+            listaPedidos.Add(ped);
+            agregado = true;
+        }
+
+        return agregado;
+    }
+
+    public bool DarAltaPedido(int nroPedido, string obsPedido, string nombreCliente, string direccionCliente, string telCliente, string datosReferenciaDireccionCliente){
         Pedido ped = new Pedido(nroPedido, obsPedido, nombreCliente, direccionCliente, telCliente, datosReferenciaDireccionCliente);
-        bool pedidoAsignado = AsignarPedidoACadete(idCadete, ped);
-        return pedidoAsignado;
+        bool pedidoAgregado = AgregarPedidoALista(ped);
+        return pedidoAgregado;
 
     }
 
@@ -35,7 +48,24 @@ public class Cadeteria
         return (listaCadetes.Count - 1);
     }
 
-    public bool AsignarPedidoACadete(int idCadete, Pedido pedidoTomado){
+    public bool AsignarCadeteAPedido(int idCadete, int nroPedido){
+        bool asignacionRealizada = false;
+        Cadete cad = listaCadetes.Find(x => x.Id == idCadete);
+
+        if(cad != null){
+            foreach(var p in listaPedidos){
+                if(p.Nro == nroPedido){
+                    p.VincularCadete(cad);
+                    break;
+                }
+            }
+            asignacionRealizada = true;
+        }
+
+        return asignacionRealizada;
+    }
+
+    /*public bool AsignarPedidoACadete(int idCadete, Pedido pedidoTomado){
         bool pedidoAsignado = false;
         foreach( var c in listaCadetes){
             if(c.Id == idCadete){
@@ -45,11 +75,12 @@ public class Cadeteria
         }
 
         return pedidoAsignado; 
-    }
+    }*/
 
     public bool CambiarEstadoPedido(int nroPedido){
-        foreach (var cad in listaCadetes){
-            if(cad.CambiarEstadoPedido(nroPedido)) {
+        foreach (var p in listaPedidos){
+            if(p.Nro == nroPedido) {
+                p.Entregado();
                 return true;
             }
         }
@@ -59,29 +90,34 @@ public class Cadeteria
 
     public bool ReasignarPedidoACadete(int nroPedido, int idCadete){
         bool reasignacionRealizada = false;
-        Pedido pedidoAReasignar = null;
-        foreach(var cad in listaCadetes){
-            pedidoAReasignar = cad.ListaPedidos.Find(p => p.Nro == nroPedido);
-            if(pedidoAReasignar != null) {
-                cad.ListaPedidos.Remove(pedidoAReasignar);
-                break;
-            }
-        }
+        Cadete cad = listaCadetes.Find(cadete => cadete.Id == idCadete);
 
-        if(pedidoAReasignar != null && pedidoAReasignar.Estado != EstadoPedido.Entregado){
-            foreach(var cad in listaCadetes){
-                if(cad.Id == idCadete){
-                    cad.AgregarPedido(pedidoAReasignar);
-                    reasignacionRealizada = true;
-                    break;
+        if(cad != null){
+            foreach(var p in listaPedidos){
+                if(p.Nro == nroPedido && p.Estado != EstadoPedido.Entregado){
+                    p.VincularCadete(cad);
                 }
+                reasignacionRealizada = true;
             }
         }
 
         return reasignacionRealizada;
     }
 
-    public Informe CrearInforme(){
+    private int CantPedidosEntregadosCadete(int idCadete){
+        int cant = 0;
+        foreach(var p in listaPedidos){
+            if((p.IdCadete() == idCadete) && (p.Estado == EstadoPedido.Entregado)) cant++;
+        }
+
+        return cant;
+    }
+
+    public double JornalACobrar(int idCadete){
+        return ((double)500 * CantPedidosEntregadosCadete(idCadete));
+    }
+
+    /*public Informe CrearInforme(){
         List<int> idsCadetes = listaCadetes.Select(cad => cad.Id).ToList();
         List<string> nombresCadetes = listaCadetes.Select(cad => cad.Nombre).ToList();
         List<int> cantPedidosEntregadosCadetes = listaCadetes.Select(cad => cad.CantidadPedidosEntregados()).ToList();
@@ -91,5 +127,5 @@ public class Cadeteria
 
         Informe informe = new Informe(CantCadetes(), idsCadetes, nombresCadetes, cantPedidosEntregadosCadetes, montosCadetes, totalPedidosEntregados, cantPromedioDePedidosEntregados);
         return informe;
-    }
+    }*/
 }
