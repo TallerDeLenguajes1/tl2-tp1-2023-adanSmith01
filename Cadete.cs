@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 namespace EmpresaDeCadeteria;
 
 public class Cadete
@@ -7,10 +8,10 @@ public class Cadete
     private string direccion;
     private string telefono;
     
-    public int Id{get => id;}
-    public string Nombre{get => nombre;}
-    public string Direccion{get => direccion;}
-    public string Telefono{get => telefono;}
+    public int Id{get => id; set => id = value;}
+    public string Nombre{get => nombre; set => nombre = value;}
+    public string Direccion{get => direccion; set => direccion = value;}
+    public string Telefono{get => telefono; set => telefono = value;}
 
     public Cadete(int id, string nombre, string direccion, string telefono){
         this.id = id;
@@ -19,47 +20,4 @@ public class Cadete
         this.telefono = telefono;
     }
 
-    public Cadete(string id, string nombre, string direccion, string telefono){
-        this.id = Convert.ToInt32(id);
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.telefono = telefono;
-    }
-
-    /*public void AgregarPedido(Pedido pedido){
-        listaPedidos.Add(pedido);
-    }
-    
-    public bool CambiarEstadoPedido(int nroPedido){
-        foreach(var p in listaPedidos){
-            if(p.Nro == nroPedido){
-                p.Entregado();
-                return true;
-            }
-        }
-
-        return false;
-    }*/
-
-    /*public int CantPedidosPendientes(){
-        int cantPedidosPendientes = 0;
-        foreach(var p in listaPedidos){
-            if(p.Estado == EstadoPedido.Pendiente) cantPedidosPendientes++;
-        }
-
-        return cantPedidosPendientes;
-    }
-
-    public int CantidadPedidosEntregados(){
-        int cantPedidosEntregados = 0;
-        foreach(var p in listaPedidos){
-            if(p.Estado == EstadoPedido.Entregado) cantPedidosEntregados++;
-        }
-
-        return cantPedidosEntregados;
-    }
-
-    public double JornalACobrar(){
-        return((double)500 * CantidadPedidosEntregados());
-    }*/
 }
