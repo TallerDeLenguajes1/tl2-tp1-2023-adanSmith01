@@ -12,6 +12,7 @@ public class Pedido
     private string observaciones;
     private EstadoPedido estado;
     private Cliente cliente;
+    private Cadete cadete;
 
     public int Nro{get => nro;}
     public string Observaciones{get => observaciones;}
@@ -31,7 +32,15 @@ public class Pedido
         Console.WriteLine($"> Direccion: {cliente.Direccion}");
     }
 
+    public int IdCadete(){
+        return cadete.Id;
+    }
+    
     public void Entregado(){
         estado = EstadoPedido.Entregado;
+    }
+
+    public void VincularCadete(Cadete cad){
+        cadete = cad;
     }
 }
