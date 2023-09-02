@@ -32,6 +32,9 @@ public class Pedido
         Console.WriteLine($"> Direccion: {cliente.Direccion}");
     }
 
+    public bool ExisteCadete(){
+        return (cadete != null);
+    }
     public int IdCadete(){
         return cadete.Id;
     }
