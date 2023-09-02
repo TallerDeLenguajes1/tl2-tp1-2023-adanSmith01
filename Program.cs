@@ -20,7 +20,7 @@ internal class Program
         do{
             Console.WriteLine("================ SISTEMA DE GESTIÓN DE PEDIDOS DE OCA ================\n");
             Console.WriteLine("a - Dar de alta pedido.\n");
-            Console.WriteLine("b - Asignar cadete a pedido");
+            Console.WriteLine("b - Asignar cadete a pedido\n");
             Console.WriteLine("c - Cambiar estado de pedido.\n");
             Console.WriteLine("d - Reasignar pedido a otro cadete.\n");
             Console.WriteLine("e - Salir.\n");
@@ -42,7 +42,6 @@ internal class Program
                 Console.Write("\n> OBSERVACIONES SOBRE EL PEDIDO: ");
                 obsPedido = Console.ReadLine();
                 Console.WriteLine($"\nN pedido: {nroPedido}\n");
-                //MostrarCantidadDePedidosDeCadetes(oca);
 
                 if(oca.DarAltaPedido(nroPedido, obsPedido, nombreCliente, direccionCliente, telCliente, datosReferenciaDireccionCliente)) Console.WriteLine("\nEl pedido fue dado de alta exitosamente.\n");
                 break;
@@ -52,6 +51,7 @@ internal class Program
                 string idCad = "", nro = "";
 
                 do{
+                    MostrarCantidadDePedidosDeCadetes(oca);
                     Console.Write("Ingrese número de pedido: ");
                     nro = Console.ReadLine();
                     Console.Write("Ingrese id del cadete: ");
@@ -116,17 +116,17 @@ internal class Program
             }
         }while(operacion != "e");
 
-        //Informe informe = oca.CrearInforme();
-        //MostrarInforme(informe);
+        Informe informe = oca.CrearInforme();
+        MostrarInforme(informe);
     }
 
-    /*private static void MostrarCantidadDePedidosDeCadetes(Cadeteria c){
+    private static void MostrarCantidadDePedidosDeCadetes(Cadeteria c){
         Console.WriteLine("\n============ CANTIDAD DE PEDIDOS POR CADETE ==============\n");
         foreach(var cad in c.ListaCadetes){
-            Console.WriteLine($"Id: {cad.Id}       Nombre: {cad.Nombre}      Cant. pedidos: {cad.CantPedidosPendientes()}");
+            Console.WriteLine($"Id: {cad.Id}       Nombre: {cad.Nombre}      Cant. pedidos: {c.CantPedidosCadete(cad.Id, EstadoPedido.Pendiente)}");
         }
         Console.WriteLine("\n");
-    }*/
+    }
 
     private static void MostrarInforme(Informe informe){
         Console.WriteLine("\n===================== INFORME =====================\n");
