@@ -26,12 +26,6 @@ public class Pedido
         this.cliente = new Cliente(nombreCliente, direccionCliente, telefonoCliente, datosReferenciaDireccionCliente);
     }  
 
-    public void VerDatosCliente(){
-        Console.WriteLine("\n====== DATOS DEL CLIENTE ====\n");
-        Console.WriteLine($"> Nombre: {cliente.Nombre}");
-        Console.WriteLine($"> Direccion: {cliente.Direccion}");
-    }
-
     public bool ExisteCadete(){
         return (cadete != null);
     }
