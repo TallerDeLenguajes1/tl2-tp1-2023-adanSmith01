@@ -1,0 +1,26 @@
+[
+    {
+        "id": "0",
+        "nombre": "Martin Gomez",
+        "direccion": "Av. Alem 2300",
+        "telefono": "+5493814579902"
+    },
+    {
+        "id": "1",
+        "nombre": "Jimena Villaruel",
+        "direccion": "Calle República de Francia 23",
+        "telefono": "+5493816551401"
+    },
+    {
+        "id": "2",
+        "nombre": "Franco Gomez",
+        "direccion": "Av. Roca 2300",
+        "telefono": "+5493814579844"
+    },
+    {
+        "id": "3",
+        "nombre": "Rocio Campo",
+        "direccion": "Calle Maipú 700",
+        "telefono": "+5493815567830"
+    }
+]
