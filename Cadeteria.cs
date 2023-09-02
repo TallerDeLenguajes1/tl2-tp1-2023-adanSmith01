@@ -16,6 +16,7 @@ public class Cadeteria
     public Cadeteria(string nombre, string telefono){
         this.nombre = nombre;
         this.telefono = telefono;
+        this.listaPedidos = new List<Pedido>();
     }
 
     private int CantCadetes(){
@@ -65,18 +66,6 @@ public class Cadeteria
         return asignacionRealizada;
     }
 
-    /*public bool AsignarPedidoACadete(int idCadete, Pedido pedidoTomado){
-        bool pedidoAsignado = false;
-        foreach( var c in listaCadetes){
-            if(c.Id == idCadete){
-                c.AgregarPedido(pedidoTomado);
-                pedidoAsignado = true;
-            } 
-        }
-
-        return pedidoAsignado; 
-    }*/
-
     public bool CambiarEstadoPedido(int nroPedido){
         foreach (var p in listaPedidos){
             if(p.Nro == nroPedido) {
@@ -104,28 +93,34 @@ public class Cadeteria
         return reasignacionRealizada;
     }
 
-    private int CantPedidosEntregadosCadete(int idCadete){
+    public int CantPedidosCadete(int idCadete, EstadoPedido estado){
         int cant = 0;
         foreach(var p in listaPedidos){
-            if((p.IdCadete() == idCadete) && (p.Estado == EstadoPedido.Entregado)) cant++;
+            if((p.ExisteCadete()) && (p.IdCadete() == idCadete) && (p.Estado == estado)) cant++;
         }
 
         return cant;
     }
 
     public double JornalACobrar(int idCadete){
-        return ((double)500 * CantPedidosEntregadosCadete(idCadete));
+        return ((double)500 * CantPedidosCadete(idCadete, EstadoPedido.Entregado));
     }
 
-    /*public Informe CrearInforme(){
+    public Informe CrearInforme(){
         List<int> idsCadetes = listaCadetes.Select(cad => cad.Id).ToList();
         List<string> nombresCadetes = listaCadetes.Select(cad => cad.Nombre).ToList();
-        List<int> cantPedidosEntregadosCadetes = listaCadetes.Select(cad => cad.CantidadPedidosEntregados()).ToList();
-        List<double> montosCadetes = listaCadetes.Select(cad => cad.JornalACobrar()).ToList();
-        int totalPedidosEntregados = listaCadetes.Sum(cad => cad.CantidadPedidosEntregados());
+
+        List<int> cantPedidosEntregadosCadetes = new List<int>();
+        List<double> montosCadetes = new List<double>();
+        foreach(var cad in listaCadetes){
+            cantPedidosEntregadosCadetes.Add(CantPedidosCadete(cad.Id, EstadoPedido.Entregado));
+            montosCadetes.Add(JornalACobrar(cad.Id));
+        }
+        
+        int totalPedidosEntregados = cantPedidosEntregadosCadetes.Sum();
         int cantPromedioDePedidosEntregados = (int)cantPedidosEntregadosCadetes.Average();
 
         Informe informe = new Informe(CantCadetes(), idsCadetes, nombresCadetes, cantPedidosEntregadosCadetes, montosCadetes, totalPedidosEntregados, cantPromedioDePedidosEntregados);
         return informe;
-    }*/
+    }
 }
