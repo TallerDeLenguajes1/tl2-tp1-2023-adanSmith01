@@ -74,74 +74,91 @@ internal class Program
                     int idCadete = 0, nroPed = 0;
                     string idCad = "", nro = "";
 
-                    do{
-                        MostrarCantidadDePedidosDeCadetes(oca);
-                        Console.Write("Ingrese número de pedido: ");
-                        nro = Console.ReadLine();
-                        Console.Write("Ingrese id del cadete: ");
-                        idCad = Console.ReadLine();
+                    if(oca.TienePedidos()){
+                        do{
+                            MostrarCantidadDePedidosDeCadetes(oca);
+                            Console.Write("Ingrese número de pedido: ");
+                            nro = Console.ReadLine();
+                            Console.Write("Ingrese id del cadete: ");
+                            idCad = Console.ReadLine();
 
-                        if(!int.TryParse(nro, out nroPed) || !int.TryParse(idCad, out idCadete)){
-                            Console.WriteLine("\nERROR. Dato/s inválido/s\n");
-                        } else{
-                            if(idCadete < 0 || idCadete > oca.IdMaximo()){
-                                Console.WriteLine("ERROR. Id inexistente");
+                            if(!int.TryParse(nro, out nroPed) || !int.TryParse(idCad, out idCadete)){
+                                Console.WriteLine("\nERROR. Dato/s inválido/s\n");
                             } else{
-                                if(oca.AsignarCadeteAPedido(idCadete, nroPed)) Console.WriteLine("\nAsignación realzada.\n");
+                                if(idCadete < 0 || idCadete > oca.IdMaximo()){
+                                    Console.WriteLine("ERROR. Id inexistente");
+                                } else{
+                                    if(oca.AsignarCadeteAPedido(idCadete, nroPed)) Console.WriteLine("\nAsignación realzada.\n");
+                                }
                             }
-                        }
-                    }while(!int.TryParse(nro, out nroPed) || !int.TryParse(idCad, out idCadete) || (idCadete < 0 || idCadete > oca.IdMaximo()));
+                        }while(!int.TryParse(nro, out nroPed) || !int.TryParse(idCad, out idCadete) || (idCadete < 0 || idCadete > oca.IdMaximo()));
+                    } else{
+                        Console.WriteLine("\nERROR. No se puede realizar la operación sin pedidos registrados.\n");
+                    }
                     break;
 
                     case "c":
                     int numPedidoACambiar;
                     string numPedido = "";
 
-                    do{
-                        Console.Write("\nIngrese el número del pedido para cambiar de estado: ");
-                        numPedido = Console.ReadLine();
-                        if(!int.TryParse(numPedido, out numPedidoACambiar)){
-                            Console.WriteLine("ERROR. Dato inválido.\n");
-                        } else{
-                            if(!oca.CambiarEstadoPedido(numPedidoACambiar)){
-                                Console.WriteLine("\nERROR. No se pudo cambiar el estado del pedido.\n");
+                    if(oca.TienePedidos()){
+                        do{
+                            Console.Write("\nIngrese el número del pedido para cambiar de estado: ");
+                            numPedido = Console.ReadLine();
+                            if(!int.TryParse(numPedido, out numPedidoACambiar)){
+                                Console.WriteLine("ERROR. Dato inválido.\n");
                             } else{
-                                Console.WriteLine("\nSe cambió el estado del pedido.\n");
+                                if(!oca.CambiarEstadoPedido(numPedidoACambiar)){
+                                    Console.WriteLine("\nERROR. No se pudo cambiar el estado del pedido.\n");
+                                } else{
+                                    Console.WriteLine("\nSe cambió el estado del pedido.\n");
+                                }
                             }
-                        }
-                    }while(!int.TryParse(numPedido, out numPedidoACambiar));
+                        }while(!int.TryParse(numPedido, out numPedidoACambiar));
+                    } else{
+                        Console.WriteLine("\nERROR. No se puede realizar la operación sin pedidos registrados.\n");
+                    }
                     break;
 
                     case "d":
                     int nroPedidoAReasignar, idCadeteAReasignar;
                     string nroP = "", id = "";
 
-                    do{
-                        Console.Write("Ingrese número del pedido: ");
-                        nroP = Console.ReadLine();
-                        Console.Write("Ingrese id del cadete a reasignar pedido: ");
-                        id = Console.ReadLine();
+                    if(oca.TienePedidos()){
+                        do{
+                            Console.Write("Ingrese número del pedido: ");
+                            nroP = Console.ReadLine();
+                            Console.Write("Ingrese id del cadete a reasignar pedido: ");
+                            id = Console.ReadLine();
 
-                        if(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(id, out idCadeteAReasignar)){
-                            Console.WriteLine("\nERROR. El id o el número de pedido no es válido");
-                        } else{
-                            if(idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()){
-                                Console.WriteLine("ERROR. Id inexistente.");
+                            if(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(id, out idCadeteAReasignar)){
+                                Console.WriteLine("\nERROR. El id o el número de pedido no es válido");
                             } else{
-                                if(!oca.ReasignarPedidoACadete(nroPedidoAReasignar, idCadeteAReasignar)){
-                                    Console.WriteLine("\nNo se puede reasignar un pedido ya entregado.\n");
+                                if(idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()){
+                                    Console.WriteLine("ERROR. Id inexistente.");
                                 } else{
-                                    Console.WriteLine("\nReasignación completada.\n");
+                                    if(!oca.ReasignarPedidoACadete(nroPedidoAReasignar, idCadeteAReasignar)){
+                                        Console.WriteLine("\nNo se puede reasignar un pedido ya entregado.\n");
+                                    } else{
+                                        Console.WriteLine("\nReasignación completada.\n");
+                                    }
                                 }
                             }
-                        }
-                    }while(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(id, out idCadeteAReasignar) || (idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()));
+                        }while(!int.TryParse(nroP, out nroPedidoAReasignar) || !int.TryParse(id, out idCadeteAReasignar) || (idCadeteAReasignar < 0 || idCadeteAReasignar > oca.IdMaximo()));
+                    } else{
+                        Console.WriteLine("\nERROR. No se puede realizar la operación sin pedidos registrados.\n");
+                    }
                     break;
                 }
             }while(operacion != "e");
 
-            Informe informe = oca.CrearInforme();
-            MostrarInforme(informe);
+            if(oca.TienePedidos()){
+                Informe informe = oca.CrearInforme();
+                MostrarInforme(informe);
+            }else{
+                Console.WriteLine("\nERROR. No se puede mostrar el informe sin pedidos registrados.\n");
+            }
+            
         } else{
             Console.WriteLine("\nERROR. No existen los archivos con los datos iniciales.\n");
         }
