@@ -63,7 +63,9 @@ internal class Program
                     datosReferenciaDireccionCliente = Console.ReadLine();
                     Console.Write("\n> OBSERVACIONES SOBRE EL PEDIDO: ");
                     obsPedido = Console.ReadLine();
-                    Console.WriteLine($"\nN pedido: {nroPedido}\n");
+                    Console.WriteLine("\n========INFORMACIÓN DEL PEDIDO========\n");
+                    Console.WriteLine($"\nNro: {nroPedido}");
+                    Console.WriteLine($"Obs: {obsPedido}");
 
                     if(oca.DarAltaPedido(nroPedido, obsPedido, nombreCliente, direccionCliente, telCliente, datosReferenciaDireccionCliente)) Console.WriteLine("\nEl pedido fue dado de alta exitosamente.\n");
                     break;
