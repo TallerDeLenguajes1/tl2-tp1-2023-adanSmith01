@@ -21,6 +21,9 @@ public class Cadeteria
         return listaCadetes.Count;
     }
 
+    public bool TienePedidos(){
+        return (listaPedidos.Count > 0);
+    }
     public void AgregarListaCadetes(List<Cadete> listaCadetes){
         this.listaCadetes = listaCadetes;
     }
